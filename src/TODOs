@@ -1,0 +1,11 @@
+DONE ArrayDFA
+DONE ValueDFA
+DONE Null value
+DONE String space
+DONE Real Number
+DONE No back method
+TODO Code Review
+TODO Memory leak
+TODO Bad format file
+
+PLAN 10x strlen clocks. Now 20x on small files.
