@@ -9,9 +9,9 @@
 #include "algorithm"
 
 Value* NilDFA::eat(stream<char>& foods, char& appetizer){
-        if (appetizer != 'n' && appetizer != 'N'){
+        /*if (appetizer != 'n' && appetizer != 'N'){
                 return NULL;
-        }
+        }*/
 
         char food;
         string poo;

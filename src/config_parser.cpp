@@ -84,33 +84,35 @@ public:
 
         bool next(char& n) {
                 while (true) {
-                        if (s.empty()) {
+                        cur--;
+                        if (cur <=0){
                                 return false;
                         }
-                        n = s.back();
-                        //n = s[0];
-                        s.pop_back();
-                        //s.erase(0, 1);
+                        n = s[cur];
                         if (j_empty && is_empty_char(n)){
                                 continue;
                         }
-                        //cout << n << endl;
                         return true;
+                        /*if (s.empty()) {
+                                return false;
+                        }
+                        n = s.back();
+                        s.pop_back();
+                        if (j_empty && is_empty_char(n)){
+                                continue;
+                        }
+                        return true;*/
                 }
         }
 
         void back(char& b) {
-                s.push_back(b);
-                //s.insert(0, 1, b);
+                cur++;
+                //s.push_back(b);
         }
 
 private:
-        bool is_empty_char(char& c) {
-                if (c == ' ' || c == '\t' || c == '\n' || c == '\r') {
-                        return true;
-                } else {
-                        return false;
-                }
+        inline bool is_empty_char(char& c) {
+                return c == ' ' || c == '\t' || c == '\n' || c == '\r';
         }
 
         size_t cur;
@@ -152,6 +154,7 @@ int main() {
         t = clock();
         size_t l = strlen(s.c_str());
         t = clock() - t;
-        cout << l << endl;
         printf ("It took me %ld clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
+        cout << l << endl;
+
 }

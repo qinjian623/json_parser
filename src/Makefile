@@ -3,7 +3,7 @@ all: parser
 	@echo "Compile Done."
 
 parser: valuedfa.o number_dfa.o stringdfa.o arraydfa.o dfa.o value.o main.o objectdfa.o nildfa.o booldfa.o
-	g++ $(GPP) -std=c++11 -pg -g -o labeler.exe number_dfa.o stringdfa.o arraydfa.o dfa.o value.o main.o valuedfa.o objectdfa.o booldfa.o nildfa.o
+	g++ $(GPP) -std=c++11 -o labeler.exe number_dfa.o stringdfa.o arraydfa.o dfa.o value.o main.o valuedfa.o objectdfa.o booldfa.o nildfa.o
 
 objectdfa.o: objectdfa.hpp objectdfa.cpp
 	g++ $(GPP) -c -std=c++11 objectdfa.cpp

@@ -25,10 +25,10 @@ void ObjectDFA::clear(){
 }
 
 Value* ObjectDFA::eat(stream<char>& foods, char& appetizer){
-        if (appetizer != '{') {
+        /*if (appetizer != '{') {
                 foods.back(appetizer);
                 return NULL;
-        }
+        }*/
         
         StringDFA sdfa;
         ValueDFA vdfa;
