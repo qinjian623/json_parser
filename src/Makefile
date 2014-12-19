@@ -1,4 +1,4 @@
-GPP=-O2
+GPP=-O2 -pg
 all: parser
 	@echo "Compile Done."
 

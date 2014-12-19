@@ -38,7 +38,7 @@ Value* ObjectDFA::eat(stream<char>& foods, char& appetizer){
         char food;
         while (foods.next(food)) {
                 if (food == ',') {
-                        continue;
+                        foods.next(food);
                 } else if (food == '}') {
                         return shit();
                 }
@@ -48,11 +48,14 @@ Value* ObjectDFA::eat(stream<char>& foods, char& appetizer){
                         clear();
                         return NULL;
                 }
-                string key(*(key_value->s));
-                key_value->clear();
+                // TODO copy of string. can be faster
+                //string key(*(key_value->s));
+                string* key = key_value->s;
+                delete key_value;
+                //key_value->clear();
 
-                foods.next(food);
-                if (food != ':'){
+
+                if (!foods.next(food) || food != ':'){
                         clear();
                         return NULL;
                 }
@@ -64,7 +67,7 @@ Value* ObjectDFA::eat(stream<char>& foods, char& appetizer){
                         clear();
                         return NULL;
                 } else {
-                        (*poo)[key] = value;
+                        (*poo)[*(key)] = value;
                 }
         }
         clear();

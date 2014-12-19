@@ -28,48 +28,37 @@ StringDFA::StringDFA() {
 }
 
 Value* StringDFA::eat(stream<char>& foods, char& appetizer) {
-        /*if (appetizer != '\"') {
-                foods.back(appetizer);
-                return NULL;
-        }*/
-
         foods.dont_jump_empty();
         char food;
-        bool in_control_char = false;
+        poo = new string();
         while (foods.next(food)) {
-                if (!in_control_char){
-                        if (food == '\\'){
-                                in_control_char = true;
-                                continue;
-                        }else if (food == '\"') {
-                                // The success exit.
-                                foods.jump_empty();
-                                return shit();
-                        }
-                }
-                if (in_control_char) {
-                        in_control_char = false;
-                        if (!insert_control_char(food)) {
+                if (food == '\\'){
+                        if (foods.next(food)&&
+                            insert_control_char(food)){
+                        }else{
                                 break;
                         }
-                } else {
-                        poo.push_back(food);
+                }else if (food == '\"'){
+                        foods.jump_empty();
+                        return shit();
+                }else{
+                        poo->push_back(food);
                 }
         }
         foods.jump_empty();
-
         // The error / can't handle / foods empty exit.
+        delete poo;
         return NULL;
 }
 
-Value* StringDFA::shit() {
-        Value* ret = new Value(new string(poo));
-        wipe_ass();
+inline Value* StringDFA::shit() {
+        Value* ret = new Value(poo);
+        //poo = NULL;
         return ret;
 }
 
-void StringDFA::wipe_ass() {
-        poo.clear();
+
+void StringDFA::wipe_ass(){
 }
 
 inline bool StringDFA::insert_control_char(const char& c) {
@@ -102,7 +91,8 @@ inline bool StringDFA::insert_control_char(const char& c) {
         default:
                 return false;
         }
-        poo.push_back(ch);
+        poo->push_back(ch);
+        return true;
         /*map<char, char>::iterator it = control_chars.find(c);
         if (it == control_chars.end()) {
                 return false;

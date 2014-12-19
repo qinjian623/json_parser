@@ -1,11 +1,6 @@
 #include "arraydfa.hpp"
 
 Value* ArrayDFA::eat(stream<char>& foods, char& appetizer) {
-        /*if (appetizer != '[') {
-                foods.back(appetizer);
-                return NULL;
-        }*/
-        
         // TODO memory leak
         poo = new vector<Value*>();
         ValueDFA vdfa;

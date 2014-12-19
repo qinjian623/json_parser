@@ -20,7 +20,7 @@ protected:
         Value* shit();
         void wipe_ass();
         bool insert_control_char(const char& c);
-        string poo;
+        string* poo;
 };
 
 #endif /* STRINGDFA_H_ */
