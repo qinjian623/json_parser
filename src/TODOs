@@ -8,4 +8,4 @@ TODO Code Review
 TODO Memory leak
 TODO Bad format file
 
-PLAN 10x strlen clocks. Now 20x on small files.
+PLAN 10x strlen clocks. Now 20x on small files. 1000x on new test bed.

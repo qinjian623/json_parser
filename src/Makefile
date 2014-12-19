@@ -1,28 +1,36 @@
+GPP=-O2
 all: parser
 	@echo "Compile Done."
 
-parser: valuedfa.o intdfa.o stringdfa.o arraydfa.o dfa.o value.o main.o 
-	g++ -g -o labeler.exe intdfa.o stringdfa.o arraydfa.o dfa.o value.o main.o 
+parser: valuedfa.o number_dfa.o stringdfa.o arraydfa.o dfa.o value.o main.o objectdfa.o nildfa.o booldfa.o
+	g++ $(GPP) -std=c++11 -pg -g -o labeler.exe number_dfa.o stringdfa.o arraydfa.o dfa.o value.o main.o valuedfa.o objectdfa.o booldfa.o nildfa.o
 
-intdfa.o: intdfa.h intdfa.cpp
-	g++ -c intdfa.cpp
+objectdfa.o: objectdfa.hpp objectdfa.cpp
+	g++ $(GPP) -c -std=c++11 objectdfa.cpp
 
-stringdfa.o: stringdfa.h stringdfa.cpp
-	g++ -c stringdfa.cpp
+number_dfa.o: number_dfa.hpp number_dfa.cpp
+	g++ $(GPP) -c -std=c++11 number_dfa.cpp
+
+stringdfa.o: stringdfa.hpp stringdfa.cpp
+	g++ $(GPP) -c  -std=c++11 stringdfa.cpp
 
 value.o: value.hpp value.cpp
-	g++ -c value.cpp
+	g++ $(GPP) -c  -std=c++11 value.cpp
 
-valuedfa.o: valuedfa.h valuedfa.cpp
-	g++ -c valuedfa.cpp
+valuedfa.o: valuedfa.hpp valuedfa.cpp
+	g++ $(GPP) -c  -std=c++11 valuedfa.cpp
 	
-arraydfa.o: arraydfa.h arraydfa.cpp
-	g++ -c arraydfa.cpp
+arraydfa.o: arraydfa.hpp arraydfa.cpp
+	g++ $(GPP) -c  -std=c++11 arraydfa.cpp
 
-dfa.o: dfa.h dfa.cpp
-	g++ -c dfa.cpp
+dfa.o: dfa.hpp dfa.cpp
+	g++ $(GPP) -c  -std=c++11 dfa.cpp
 
+booldfa.o: booldfa.hpp booldfa.cpp
+	g++ $(GPP) -c -std=c++11 booldfa.cpp
+nildfa.o: nildfa.hpp nildfa.cpp
+	g++ $(GPP) -c -std=c++11 nildfa.cpp
 main.o: config_parser.cpp
-	g++ -c config_parser.cpp -o main.o
+	g++ $(GPP) -c  -std=c++11 config_parser.cpp -o main.o
 clean:
 	rm *.o

@@ -11,9 +11,9 @@
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <algorithm>
 #include <cstring>
-
 #include "dfa.hpp"
 #include "value.hpp"
 #include "valuedfa.hpp"
@@ -75,86 +75,83 @@ private:
 };
 
 class strstream: public stream<char> {
-        public:
+public:
         strstream(string& in):s(in) {
-                        std::reverse(in.begin(), in.end());
-                        cur = in.size();
-                        j_empty = true;
-                }
+                std::reverse(in.begin(), in.end());
+                cur = in.size();
+                j_empty = true;
+        }
 
-                bool next(char& n) {
-                        while (true) {
-                                if (s.empty()) {
-                                        return false;
-                                }
-                                n = s.back();
-                                //n = s[0];
-                                s.pop_back();
-                                //s.erase(0, 1);
-                                if (j_empty && is_empty_char(n)){
-                                        continue;
-                                }
-                                cout << n << endl;
-                                return true;
-                        }
-                }
-
-                void back(char& b) {
-                        s.push_back(b);
-                        //s.insert(0, 1, b);
-                }
-
-        private:
-                bool is_empty_char(char& c) {
-                        if (c == ' ' || c == '\t' || c == '\n' || c == '\r') {
-                                return true;
-                        } else {
+        bool next(char& n) {
+                while (true) {
+                        if (s.empty()) {
                                 return false;
                         }
+                        n = s.back();
+                        //n = s[0];
+                        s.pop_back();
+                        //s.erase(0, 1);
+                        if (j_empty && is_empty_char(n)){
+                                continue;
+                        }
+                        //cout << n << endl;
+                        return true;
                 }
+        }
 
-                size_t cur;
-                string& s;
+        void back(char& b) {
+                s.push_back(b);
+                //s.insert(0, 1, b);
+        }
+
+private:
+        bool is_empty_char(char& c) {
+                if (c == ' ' || c == '\t' || c == '\n' || c == '\r') {
+                        return true;
+                } else {
+                        return false;
+                }
+        }
+
+        size_t cur;
+        string& s;
 };
 
-int main() {
-        cout << "Hello world" << endl;
-        ArrayDFA adfa;
-        ObjectDFA odfa;
 
-
-        string s = "}";
-        strstream sss(s);
-        char appetizer = '{';
-        Value* v = odfa.eat(sss, appetizer);
-        //cout << v << endl;
-        //cout << *v << endl;
-        clock_t t = clock();
-        cout << "Reading file" << endl;
-        ifstream ifs;
-        //ifs.open("/Users/qin/Downloads/MOCK_DATA(1).json");
-        ifs.open("/tmp/json.json");
-        filestream ssa(ifs);
-
-        if (!ssa.next(appetizer)){}
-        //strstream ssa(s);
-        Value* a = odfa.eat(ssa, appetizer);
-        t = clock() - t;
-        printf ("It took me %ld clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
-
-        //cout << *a << endl;
-        //cout << a->a->size() << endl;
-        cout << "DONE" << endl;
-
+void load_file(string& file, string& s){
         ifstream sfs;
-        sfs.open("/tmp/json.json");
+        sfs.open(file);
         s = "";
         string line;
-        t = clock();
         while(std::getline(sfs, line)){
-                s.append(line);
+                s += line;
         }
-        strlen(s.c_str());
+}
+
+
+int main() {
+        string test_json_file = "/home/qin/Downloads/MOCK_DATA.json";
+        string s;
+        cout << "Reading file" << endl;
+        load_file(test_json_file, s);
+
+        strstream ssa(s);
+        ArrayDFA adfa;
+
+        char appetizer;
+        ssa.next(appetizer);
+
+        clock_t t = clock();
+        Value* a = adfa.eat(ssa, appetizer);
         t = clock() - t;
+        printf ("It took me %ld clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
+        cout << "DONE" << endl;
+
+        s = "";
+        load_file(test_json_file, s);
+        t = clock();
+        size_t l = strlen(s.c_str());
+        t = clock() - t;
+        cout << l << endl;
         printf ("It took me %ld clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
 }
